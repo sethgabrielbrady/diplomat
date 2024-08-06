@@ -67,6 +67,7 @@
   }
 
   .nav-item {
+    border-bottom: 2px solid #fff12f00;
     cursor: pointer;
     display: inline;
     font-family: 'monotype', sans-serif;
