@@ -1,33 +1,42 @@
 
 <script>
+  import './assets/main.css';
+  import DiplomatSlide from './components/DiplomatSlide.vue';
+  import { ref } from 'vue';
+
   export default {
-    setup() {
-      return {
-        isActive: ref(false),
-      }
+    components: {
+      DiplomatSlide
     },
-    methods: {
-      toggleActive() {
-        this.isActive = !this.isActive;
+    setup() {
+      let isActive = ref(false);
+
+      function toggleActive() {
+        isActive.value = !isActive.value;
       }
+
+      return {
+        isActive,
+        toggleActive
+      };
     }
   };
 </script>
 
 <template>
-  <div
-    @click="toggleActive()"
-    class="landing-page"
-  >
+  <div class="landing-page">
     <div
+      @click="toggleActive"
       class="slide-overlay"
       :class="{ 'slide-active': isActive }"
     />
-    <DiplomatSlide :isActive="isActive" />
+    <DiplomatSlide :isActive="isActive" @closeSlide="toggleActive" />
   </div>
+
 </template>
 
 <style scoped>
+
   .landing-page {
     background-image: url('./assets/Bonvoy.png');
     background-size: cover;
@@ -47,5 +56,6 @@
   }
   .slide-active {
     background-color: #000000c4;
+    pointer-events: none;
   }
 </style>

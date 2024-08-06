@@ -3,6 +3,12 @@
   const props = defineProps({
     isActive: Boolean
   });
+
+  const emit = defineEmits(['closeSlide']);
+
+  function closeSlide() {
+    emit('closeSlide');
+  }
 </script>
 
 <template>
@@ -10,14 +16,23 @@
     class="diplomat-slide"
     :class="{ 'slide-out': !props.isActive, 'slide-in': props.isActive }"
   >
-    <h1>Diplomat</h1>
+    <div class="svg-close" @click="closeSlide">
+      <svg width="4em" height="4em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6.99486 7.00636C6.60433 7.39689 6.60433 8.03005 6.99486 8.42058L10.58 12.0057L6.99486 15.5909C6.60433 15.9814 6.60433 16.6146 6.99486 17.0051C7.38538 17.3956 8.01855 17.3956 8.40907 17.0051L11.9942 13.4199L15.5794 17.0051C15.9699 17.3956 16.6031 17.3956 16.9936 17.0051C17.3841 16.6146 17.3841 15.9814 16.9936 15.5909L13.4084 12.0057L16.9936 8.42059C17.3841 8.03007 17.3841 7.3969 16.9936 7.00638C16.603 6.61585 15.9699 6.61585 15.5794 7.00638L11.9942 10.5915L8.40907 7.00636C8.01855 6.61584 7.38538 6.61584 6.99486 7.00636Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <p class="slide-title">
+      <span class="title-small">THE</span>
+      <span class="title-large">DIPLOMAT</span>
+    </p>
+    <DiplomatNav />
   </div>
 </template>
 
-<style scoped>
+<style scoped="scss">
   .diplomat-slide {
     background-color: #000000;
-    color: aqua;
+    color:#fff;
     height: 100vh;
     padding: 3em;
     position: absolute;
@@ -25,10 +40,42 @@
     transition: right 0.5s;
     width: 55vw;
   }
+
+  .slide-title {
+    font-family: 'NOIRetBLANC', serif;
+    font-weight: 100;
+    margin: 0;
+    margin-top: 1em;
+    padding: 0;
+    position: relative;
+    text-transform: uppercase;
+  }
+
+  .title-small {
+    display: block;
+    font-size: 1.25em;
+    font-style: italic;
+    position: absolute;
+  }
+
+  .title-large {
+    display: block;
+    color: #FFF22F;
+    font-size: 6em;
+  }
+
   .slide-out {
     right: calc(-55vw - 6em);
   }
+
   .slide-in {
     right: 0;
+  }
+
+  .svg-close {
+    cursor: pointer;
+    position: absolute;
+    right: 2em;
+    top: 2em;
   }
 </style>

@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'NOIRetBLANC';
+  src: url('@/assets/fonts/NOIR_et_BLANC/NOIRetBLANC.otf') format('truetype');
+}
+
+.svg-cross {
+  background-image: url("./assets/cross.svg");
+  color: white;
+  height: auto;
+  width: 1em;
+}
+
+.svg-right-arrow {
+  background-image: url("./assets/right.svg");
+  color: white;
+  height: auto;
+  width: 1em;
+}
