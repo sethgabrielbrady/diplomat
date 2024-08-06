@@ -4,6 +4,8 @@
       return {
         navItems: ['CURRENT TASKS', 'NEW REQUEST', 'MESSAGE CONCIERGE', 'DOCUMENTATION']
       }
+
+
     },
   })
 </script>
@@ -15,9 +17,9 @@
       <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#FFF22F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
+    <div class="nav-gradient" />
     <nav class="diplomat-nav">
-      <div class="nav-gradient"/>
-      <ul class="nav-items">
+      <ul class="nav-items ">
         <li
           v-for="item in navItems"
           :key="item"
@@ -34,6 +36,7 @@
   .nav-container {
     padding: 1em 0;
   }
+
   .diplomat-nav {
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     overflow-x: scroll;
@@ -42,12 +45,13 @@
   }
 
   .nav-gradient {
-    background: rgba(0, 0, 0);
-    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01866684173669464) 84%, rgba(0,0,0,0.7385547969187676) 100%);
-    height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5032606792717087) 50%, rgba(0,0,0,0.9814119397759104) 100%);
+    height: 20px;
     position: absolute;
-    width: 55vw;
-    height: 100px;
+    right: 0;
+    width: 11vw;
+    z-index: 2;
+    /* border: 1px solid red; */
   }
 
   .diplomat-nav::-webkit-scrollbar {
@@ -70,10 +74,10 @@
     border-bottom: 2px solid #fff12f00;
     cursor: pointer;
     display: inline;
-    font-family: 'monotype', sans-serif;
-    font-size: 1em;
+    font-family: sans-serif;
+    font-size: 1.025em;
     font-weight: 100;
-    margin-right: 14em;
+    margin-right: 8.5em;
     padding-right: 0em;
     text-transform: uppercase;
     width: max-content;
@@ -88,7 +92,7 @@
   .svg-arrow {
     cursor: pointer;
     position: absolute;
-    right: 1.4em;
+    right: 3em;
     transform: translateY(-3em);
   }
 </style>

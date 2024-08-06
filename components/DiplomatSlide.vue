@@ -36,7 +36,7 @@
     background-color: #000000;
     color:#fff;
     height: 100vh;
-    padding: 2em;
+    padding: 4em;
     position: absolute;
     top: 0;
     transition: right 0.5s;
@@ -47,7 +47,7 @@
     font-family: 'NOIRetBLANC', serif;
     font-weight: 100;
     margin: 0;
-    margin-top: 1em;
+    margin-top: 2em;
     padding: 0;
     position: relative;
     text-transform: uppercase;
@@ -63,7 +63,7 @@
   .title-large {
     display: block;
     color: #FFF22F;
-    font-size: 6em;
+    font-size: 7.5em;
   }
 
   .slide-out {
@@ -80,8 +80,8 @@
     width: 4em;
     position: absolute;
     transform: translateY(-10px);
-    right: 1em;
-    top: 2em;
+    right: 2em;
+    top: 4em;
     z-index: 2;
   }
 
@@ -94,7 +94,7 @@
     margin-right: 0.5em;
     position: absolute;
     width: 2.5em;
-    right: 5em;
-    top: 2em;
+    right: 6em;
+    top: 4em;
   }
 </style>
