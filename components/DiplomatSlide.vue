@@ -16,10 +16,13 @@
     class="diplomat-slide"
     :class="{ 'slide-out': !props.isActive, 'slide-in': props.isActive }"
   >
-    <div class="svg-close" @click="closeSlide">
-      <svg width="4em" height="4em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6.99486 7.00636C6.60433 7.39689 6.60433 8.03005 6.99486 8.42058L10.58 12.0057L6.99486 15.5909C6.60433 15.9814 6.60433 16.6146 6.99486 17.0051C7.38538 17.3956 8.01855 17.3956 8.40907 17.0051L11.9942 13.4199L15.5794 17.0051C15.9699 17.3956 16.6031 17.3956 16.9936 17.0051C17.3841 16.6146 17.3841 15.9814 16.9936 15.5909L13.4084 12.0057L16.9936 8.42059C17.3841 8.03007 17.3841 7.3969 16.9936 7.00638C16.603 6.61585 15.9699 6.61585 15.5794 7.00638L11.9942 10.5915L8.40907 7.00636C8.01855 6.61584 7.38538 6.61584 6.99486 7.00636Z" fill="#FFFFFF"/>
-      </svg>
+    <div class="slide-elements">
+      <div class="user-icon" />
+      <div class="svg-close" @click="closeSlide">
+        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path  d="M6.99486 7.00636C6.60433 7.39689 6.60433 8.03005 6.99486 8.42058L10.58 12.0057L6.99486 15.5909C6.60433 15.9814 6.60433 16.6146 6.99486 17.0051C7.38538 17.3956 8.01855 17.3956 8.40907 17.0051L11.9942 13.4199L15.5794 17.0051C15.9699 17.3956 16.6031 17.3956 16.9936 17.0051C17.3841 16.6146 17.3841 15.9814 16.9936 15.5909L13.4084 12.0057L16.9936 8.42059C17.3841 8.03007 17.3841 7.3969 16.9936 7.00638C16.603 6.61585 15.9699 6.61585 15.5794 7.00638L11.9942 10.5915L8.40907 7.00636C8.01855 6.61584 7.38538 6.61584 6.99486 7.00636Z" fill="#FFFFFF"/>
+        </svg>
+      </div>
     </div>
     <p class="slide-title">
       <span class="title-small">THE</span>
@@ -34,7 +37,7 @@
     background-color: #000000;
     color:#fff;
     height: 100vh;
-    padding: 3em;
+    padding: 2em;
     position: absolute;
     top: 0;
     transition: right 0.5s;
@@ -72,10 +75,28 @@
     right: 0;
   }
 
+  .slide-elements {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    position: absolute;
+    right: 1em;
+    top: 2em;
+  }
+
   .svg-close {
     cursor: pointer;
-    position: absolute;
-    right: 2em;
-    top: 2em;
+    padding: 0;
+    width: 4em;
+    transform: translateY(-10px);
+  }
+  .user-icon {
+    background-image: url('https://randomuser.me/api/portraits/lego/8.jpg');
+    background-size: cover;
+    border: 2px solid #FFF22F;
+    border-radius: 50%;
+    height: 2.5em;
+    margin-right: 0.5em;
+    width: 2.5em;
   }
 </style>

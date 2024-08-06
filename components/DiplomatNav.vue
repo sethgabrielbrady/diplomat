@@ -81,12 +81,13 @@
   .nav-item:hover{
     border-bottom: 2px solid #FFF22F;
   }
-
+  .svg {
+    width: max-content;
+  }
   .svg-arrow {
     cursor: pointer;
     position: absolute;
-    right: 2em;
+    right: 1.4em;
     transform: translateY(-3em);
-    width: max-content;
   }
 </style>
