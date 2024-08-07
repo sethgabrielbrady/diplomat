@@ -212,8 +212,11 @@
       </svg>
     </div>
     <div class="tasks-container">
-      <div v-for="task in tasks" :key="task" class="tasks">
-        <div class="task-item">{{ task }}</div>
+      <div v-for="(task, index) in tasks" :key="task" class="tasks">
+        <div class="task-item">
+          <p class="task-title">{{ task }}</p>
+          <p>Customer-project-key #{{ index + 1 }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -249,6 +252,7 @@
   }
 
   .tasks {
+    font-family: sans-serif;
     height: max-content;
   }
 
@@ -257,5 +261,12 @@
     border: 1px solid #dbdbdb81;
     height: 100px;
     margin: 2em 0;
+    padding: 1em;
   }
+
+  .task-title {
+    font-size: 1.04em;
+    text-transform: uppercase;
+  }
+
 </style>

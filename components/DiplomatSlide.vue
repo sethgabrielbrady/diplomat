@@ -1,5 +1,5 @@
 <script>
-  import { ref, reactive } from 'vue';
+  import { ref } from 'vue';
   import DiplomatNav from './DiplomatNav.vue';
   import CurrentTasks from './CurrentTasks.vue';
   import MessageConcierge from './MessageConcierge.vue';
@@ -64,7 +64,7 @@
   </div>
 </template>
 
-<style scoped="scss">
+<style scoped>
   .diplomat-slide {
     background-color: #000000;
     color:#fff;
@@ -72,9 +72,33 @@
     padding: 4em;
     position: absolute;
     overflow-y: hidden;
+    overflow-x: hidden;
     top: 0;
     transition: right 0.5s;
     width: 55vw;
+  }
+
+  .slide-out {
+    right: -65vw;
+  }
+
+  .slide-in {
+    right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .diplomat-slide {
+      padding: 2em;
+      width: calc(100vw - 4em);
+    }
+
+    .slide-out {
+      right: -100vw;
+    }
+
+    .slide-in {
+      right: 0;
+    }
   }
 
   .slide-title {
@@ -100,21 +124,13 @@
     font-size: 7.5em;
   }
 
-  .slide-out {
-    right: -65vw;
-  }
-
-  .slide-in {
-    right: 0;
-  }
-
   .svg-close {
     cursor: pointer;
     padding: 0;
     width: 4em;
     position: absolute;
-    transform: translateY(-10px);
     right: 2em;
+    transform: translateY(-10px);
     top: 4em;
     z-index: 2;
   }
@@ -127,8 +143,8 @@
     height: 2.5em;
     margin-right: 0.5em;
     position: absolute;
-    width: 2.5em;
     right: 6em;
+    width: 2.5em;
     top: 4em;
   }
 </style>
