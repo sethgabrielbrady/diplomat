@@ -3,8 +3,8 @@
   import { Octokit } from "octokit";
   import { ref } from 'vue';
 
-
   export default {
+    name: 'DiplomatSwimlanes',
     setup() {
       const token = import.meta.env.VITE_APP_GH_CRED;
       const octokit = new Octokit({
@@ -12,10 +12,12 @@
       });
 
       const swimLanes = ref([]);
+      const tasks = ref(["task1", "task2", "task3", "task4", "task5"]);
+      const projects = ref([]);
       const projectFields = ref([]);
       const projectCards = ref({});
       const isAuthenticated = ref(false);
-      const projects = ref([]);
+      let laneIndex = ref(0);
 
 
        // Function to test authentication
@@ -27,6 +29,14 @@
         } catch (error) {
           isAuthenticated.value = false;
           console.error('Authentication failed:', error);
+        }
+      }
+
+      function updateLaneIndex() {
+        if (this.laneIndex < this.swimLanes.length - 1) {
+          this.laneIndex++;
+        } else {
+          this.laneIndex = 0;
         }
       }
 
@@ -175,8 +185,6 @@
   }
 }
 
-
-
     // Fetch data when the component is mounted
       async function fetchData() {
       await testAuthentication();
@@ -192,32 +200,42 @@
     fetchData();
 
 
-      return {
-        swimLanes,
-        projectFields,
-        projectCards,
-        projects,
-        isAuthenticated
-      };
-
-    }
-  };
+    return {
+      swimLanes,
+      tasks,
+      projectFields,
+      projectCards,
+      projects,
+      isAuthenticated,
+      laneIndex,
+      updateLaneIndex
+    };
+  }
+};
 </script>
 
 <template>
   <div class="swimlanes-container">
     <div class="swimlane">
-      {{ swimLanes }}
+      {{ swimLanes[laneIndex] }}
     </div>
-    <div class="svg-arrow">
+    <div class="svg-arrow" @click="updateLaneIndex" >
       <svg width="3em" height="3em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#FFF22F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
+    </div>
+    <div class="tasks-container">
+      <div v-for="task in tasks" :key="task" class="tasks">
+        <div class="task-item">{{ task }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+  .swimlanes-container {
+    overflow-y: hidden;
+  }
 
   .swimlane {
     color:#FFF22F;
@@ -228,11 +246,29 @@
   .svg {
     width: max-content;
   }
+
   .svg-arrow {
     cursor: pointer;
     position: absolute;
     right: 3em;
     transform: translateY(-3em);
+  }
+
+  .tasks-container {
+    overflow-y: scroll;
+    padding-bottom: 4em;
+    height: 50vh;
+  }
+
+  .tasks {
+    height: max-content;
+  }
+
+  .task-item {
+    color: white;
+    border: 1px solid #dbdbdb81;
+    height: 100px;
+    margin: 2em 0;
   }
 
 </style>

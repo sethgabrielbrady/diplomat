@@ -1,7 +1,6 @@
 
 <script>
   import './assets/main.css';
-
   import DiplomatSlide from './components/DiplomatSlide.vue';
   import { ref } from 'vue';
 
@@ -37,12 +36,11 @@
 </template>
 
 <style scoped>
-
   .landing-page {
     background-image: url('./assets/Bonvoy.png');
     background-size: cover;
     height: 100vh;
-    overflow: hidden;
+    overflow-y: hidden;
     padding: 0;
     position: relative;
     transition: background-color 0.5s;

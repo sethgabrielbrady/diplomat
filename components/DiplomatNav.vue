@@ -1,18 +1,26 @@
 <script>
-  export default defineComponent({
+  import { reactive } from 'vue';
+
+  export default {
+    name: 'DiplomatNav',
     setup() {
-      return {
-        navItems: ['CURRENT TASKS', 'NEW REQUEST', 'MESSAGE CONCIERGE', 'DOCUMENTATION']
+      const navItems = reactive(['CURRENT TASKS', 'NEW REQUEST', 'MESSAGE CONCIERGE', 'DOCUMENTATION']);
+
+      function updateNavItem() {
+        this.navItems.push(this.navItems.shift());
       }
 
-
-    },
-  })
+      return {
+        navItems,
+        updateNavItem
+      }
+    }
+  }
 </script>
 
 <template>
   <div class="nav-container">
-    <div class="svg-arrow">
+    <div class="svg-arrow" @click="updateNavItem">
       <svg width="3em" height="3em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 12H20M20 12L16 8M20 12L16 16" stroke="#FFF22F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -51,7 +59,6 @@
     right: 0;
     width: 11vw;
     z-index: 2;
-    /* border: 1px solid red; */
   }
 
   .diplomat-nav::-webkit-scrollbar {
@@ -86,9 +93,11 @@
   .nav-item:hover{
     border-bottom: 2px solid #FFF22F;
   }
+
   .svg {
     width: max-content;
   }
+
   .svg-arrow {
     cursor: pointer;
     position: absolute;

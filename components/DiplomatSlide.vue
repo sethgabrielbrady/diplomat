@@ -38,6 +38,7 @@
     height: 100vh;
     padding: 4em;
     position: absolute;
+    overflow-y: hidden;
     top: 0;
     transition: right 0.5s;
     width: 55vw;
@@ -67,7 +68,7 @@
   }
 
   .slide-out {
-    right: calc(-55vw - 6em);
+    right: -65vw;
   }
 
   .slide-in {
