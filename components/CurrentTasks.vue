@@ -4,7 +4,7 @@
   import { ref } from 'vue';
 
   export default {
-    name: 'DiplomatSwimlanes',
+    name: 'CurrentTasks',
     setup() {
       const token = import.meta.env.VITE_APP_GH_CRED;
       const octokit = new Octokit({
@@ -19,13 +19,10 @@
       const isAuthenticated = ref(false);
       let laneIndex = ref(0);
 
-
-       // Function to test authentication
        async function testAuthentication() {
         try {
           const response = await octokit.request('GET /user');
           isAuthenticated.value = true;
-          console.log('Authenticated as:', response.data);
         } catch (error) {
           isAuthenticated.value = false;
           console.error('Authentication failed:', error);
@@ -75,122 +72,113 @@
           repo: repo
         });
         projects.value = response.repository.projectsV2.nodes;
-        console.log('Fetched projects:', projects.value);
       } catch (error) {
         console.error('Error fetching projects from GitHub GraphQL API:', error);
       }
     }
 
-
-
-
     async function fetchProjectFieldsAndItems(projectId) {
-  const query = `
-    query($projectId: ID!) {
-      node(id: $projectId) {
-        ... on ProjectV2 {
-          fields(first: 10) {
-            nodes {
-              __typename
-              ... on ProjectV2FieldCommon {
-                id
-                name
-              }
-              ... on ProjectV2SingleSelectField {
-                id
-                name
-                options {
-                  id
-                  name
-                }
-              }
-              ... on ProjectV2IterationField {
-                id
-                name
-                configuration {
-                  iterations {
-                    startDate
-                    duration
-                    title
-                  }
-                }
-              }
-            }
-          }
-          items(first: 100) {
-            nodes {
-              id
-              fieldValues(first: 10) {
+      const query = `
+        query($projectId: ID!) {
+          node(id: $projectId) {
+            ... on ProjectV2 {
+              fields(first: 10) {
                 nodes {
-                  ... on ProjectV2ItemFieldSingleSelectValue {
-                    field {
-                      ... on ProjectV2SingleSelectField {
-                        id
+                  __typename
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                  }
+                  ... on ProjectV2SingleSelectField {
+                    id
+                    name
+                    options {
+                      id
+                      name
+                    }
+                  }
+                  ... on ProjectV2IterationField {
+                    id
+                    name
+                    configuration {
+                      iterations {
+                        startDate
+                        duration
+                        title
                       }
                     }
-                    optionId
                   }
                 }
               }
-              content {
-                ... on Issue {
+              items(first: 100) {
+                nodes {
                   id
-                  title
-                }
-                ... on PullRequest {
-                  id
-                  title
+                  fieldValues(first: 10) {
+                    nodes {
+                      ... on ProjectV2ItemFieldSingleSelectValue {
+                        field {
+                          ... on ProjectV2SingleSelectField {
+                            id
+                          }
+                        }
+                        optionId
+                      }
+                    }
+                  }
+                  content {
+                    ... on Issue {
+                      id
+                      title
+                    }
+                    ... on PullRequest {
+                      id
+                      title
+                    }
+                  }
                 }
               }
             }
           }
         }
+      `;
+
+      try {
+        const response = await octokit.graphql(query, {
+          projectId: projectId
+        });
+        const fields = response.node.fields.nodes;
+        const items = response.node.items.nodes;
+
+        // Check if the third field is of type ProjectV2SingleSelectField
+        if (fields[2].__typename === 'ProjectV2SingleSelectField') {
+          const options = fields[2].options;
+          options.forEach(option => {
+            swimLanes.value.push(option.name);
+            const optionItems = items.filter(item =>
+              item.fieldValues.nodes.some(fieldValue =>
+                fieldValue.__typename === 'ProjectV2ItemFieldSingleSelectValue' &&
+                fieldValue.field.id === fields[2].id &&
+                fieldValue.optionId === option.id
+              )
+            );
+          });
+        } else {
+          console.log('fields.nodes[2] is not of type ProjectV2SingleSelectField');
+        }
+      } catch (error) {
+        console.error('Error fetching project fields and items from GitHub GraphQL API:', error);
+        if (error.errors) {
+          error.errors.forEach(e => console.error(e.message)); // Log specific error messages
+        }
       }
     }
-  `;
 
-  try {
-    const response = await octokit.graphql(query, {
-      projectId: projectId
-    });
-    console.log('GraphQL response:', response); // Log the response for debugging
-    const fields = response.node.fields.nodes;
-    const items = response.node.items.nodes;
-
-    // Check if the third field is of type ProjectV2SingleSelectField
-    if (fields[2].__typename === 'ProjectV2SingleSelectField') {
-      const options = fields[2].options;
-      console.log('Options for fields.nodes[2]:', options);
-
-      options.forEach(option => {
-        swimLanes.value.push(option.name);
-        const optionItems = items.filter(item =>
-          item.fieldValues.nodes.some(fieldValue =>
-            fieldValue.__typename === 'ProjectV2ItemFieldSingleSelectValue' &&
-            fieldValue.field.id === fields[2].id &&
-            fieldValue.optionId === option.id
-          )
-        );
-        console.log(`Cards for option ${option.name}:`, optionItems);
-      });
-    } else {
-      console.log('fields.nodes[2] is not of type ProjectV2SingleSelectField');
-    }
-
-  } catch (error) {
-    console.error('Error fetching project fields and items from GitHub GraphQL API:', error);
-    if (error.errors) {
-      error.errors.forEach(e => console.error(e.message)); // Log specific error messages
-    }
-  }
-}
-
-    // Fetch data when the component is mounted
+      // Fetch data when the component is mounted
       async function fetchData() {
       await testAuthentication();
       if (isAuthenticated.value) {
-        const owner = import.meta.env.VITE_APP_GH_OWNER; // Replace with your actual repository owner
-        const repo = import.meta.env.VITE_APP_GH_REPO; // Replace with your actual repository name
+        const owner = import.meta.env.VITE_APP_GH_OWNER;
+        const repo = import.meta.env.VITE_APP_GH_REPO;
         await fetchProjects(owner, repo);
         if (projects.value.length > 0) {
           await fetchProjectFieldsAndItems(projects.value[0].id);
@@ -198,7 +186,6 @@
       }
     }
     fetchData();
-
 
     return {
       swimLanes,
@@ -241,6 +228,7 @@
     color:#FFF22F;
     font-family: 'NOIRetBLANC', serif;
     font-size: 2em;
+    min-height: 2em;
   }
 
   .svg {
@@ -270,5 +258,4 @@
     height: 100px;
     margin: 2em 0;
   }
-
 </style>

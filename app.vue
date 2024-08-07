@@ -18,7 +18,7 @@
       return {
         isActive,
         toggleActive
-      };
+      }
     }
   };
 </script>
@@ -32,7 +32,6 @@
     />
     <DiplomatSlide :isActive="isActive" @closeSlide="toggleActive" />
   </div>
-
 </template>
 
 <style scoped>

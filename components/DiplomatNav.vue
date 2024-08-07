@@ -3,16 +3,17 @@
 
   export default {
     name: 'DiplomatNav',
-    setup() {
-      const navItems = reactive(['CURRENT TASKS', 'NEW REQUEST', 'MESSAGE CONCIERGE', 'DOCUMENTATION']);
+    setup(props, { emit }) {
+      const navItems = reactive(["Current Tasks", "New Request", "Message Concierge", "Documentation"]);
 
       function updateNavItem() {
-        this.navItems.push(this.navItems.shift());
+        navItems.push(navItems.shift());
+        emit('activeNavItem', navItems[0]);
       }
 
       return {
         navItems,
-        updateNavItem
+        updateNavItem,
       }
     }
   }
@@ -40,7 +41,7 @@
   </div>
 </template>
 
-<style scoped lang="css">
+<style scoped>
   .nav-container {
     padding: 1em 0;
   }
@@ -88,6 +89,10 @@
     padding-right: 0em;
     text-transform: uppercase;
     width: max-content;
+  }
+
+  .nav-item:first-child {
+    border-bottom: 2px solid #FFF22F;
   }
 
   .nav-item:hover{
