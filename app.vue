@@ -1,6 +1,7 @@
 
 <script>
   import './assets/main.css';
+
   import DiplomatSlide from './components/DiplomatSlide.vue';
   import { ref } from 'vue';
 
